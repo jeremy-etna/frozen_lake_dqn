@@ -11,7 +11,7 @@ gamma: float = 0.99
 epsilon: float = 1.0
 learning_rate: float = 0.01
 batch_size: int = 32
-max_episodes: int = 500
+max_episodes: int = 15000
 max_timesteps: int = 100
 
 
@@ -79,6 +79,9 @@ def learn(batch: list[tuple[int, int, int, int, bool]]) -> None:
     optimizer.step()
 
 
+goal_reward = 100  # Récompense lors de l'atteinte de l'objectif
+hole_reward = -100  # Récompense lors de l'atteinte d'un trou
+step_reward = -1  # Récompense à chaque étape
 total_rewards = []
 # Apprentissage
 for episode in range(max_episodes):
@@ -93,11 +96,11 @@ for episode in range(max_episodes):
 
         if terminated:
             if step < max_timesteps - 1:
-                reward = -1
+                reward = hole_reward  # Atteinte d'un trou
             else:
-                reward = 1
+                reward = goal_reward  # Atteinte de l'objectif
         else:
-            reward = 0
+            reward = step_reward  # Récompense à chaque étape
 
         #           int         int      int     int         bool
         batch = [current_state, action, reward, next_state, terminated]
@@ -109,9 +112,9 @@ for episode in range(max_episodes):
 
         if terminated or step == max_timesteps - 1:
             total_rewards.append(episode_total_reward)
-            # print(
-            #     f"EPISODE {episode + 1}/{max_episodes}, Reward: {episode_total_reward}"
-            # )
+            print(
+                f"EPISODE {episode + 1}/{max_episodes}, Reward: {episode_total_reward}"
+            )
             break
 
     # Décroissance de epsilon
