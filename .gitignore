@@ -1,0 +1,52 @@
+# Fichiers et dossiers générés par Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dossiers spécifiques à certains éditeurs de texte
+.vscode/
+.idea/
+
+# Fichiers de configuration Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Fichiers de logs
+*.log
+
+# Fichiers de sauvegarde
+*~
+*.bak
+
+# Fichiers de dépendances et d'environnement virtuel
+venv/
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Fichiers de documentation générés
+docs/_build/
+
+# Fichiers de cache et de données temporaires
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Fichiers de tests et de couverture de code
+.tox/
+.coverage
+htmlcov/
+
+# Fichiers de sortie de l'environnement de développement
+*.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Autres fichiers et dossiers à ignorer selon les besoins
