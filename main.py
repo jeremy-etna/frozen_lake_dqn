@@ -4,15 +4,19 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
-
+from collections import deque
+import random
 
 # Paramètres
 gamma: float = 0.99
-epsilon: float = 1.0
-learning_rate: float = 0.01
+epsilon: float = 0.6  # Reduced initial epsilon
+learning_rate: float = 0.001  # Reduced learning rate
 batch_size: int = 32
-max_episodes: int = 15000
+max_episodes: int = 1500
 max_timesteps: int = 100
+# Replay memory
+memory_size: int = 10000  # Size of the replay buffer
+memory = deque(maxlen=memory_size)
 
 
 class DQN(nn.Module):
@@ -49,9 +53,9 @@ def choose_action(current_state: int, epsilon: float) -> int:
     else:
         state: torch.tensor = torch.Tensor([current_state])
         q_values: torch.tensor = model(state)
-        # print("q_values:", q_values)
         action: int = q_values.argmax().item()
     return action
+
 
 
 def learn(batch: list[tuple[int, int, int, int, bool]]) -> None:
@@ -79,9 +83,10 @@ def learn(batch: list[tuple[int, int, int, int, bool]]) -> None:
     optimizer.step()
 
 
-goal_reward = 100  # Récompense lors de l'atteinte de l'objectif
-hole_reward = -100  # Récompense lors de l'atteinte d'un trou
-step_reward = -1  # Récompense à chaque étape
+goal_reward = 1  # Reduced reward for reaching goal
+hole_reward = -1  # Reduced reward for falling into a hole
+step_reward = -0.1  # Slightly reduced step reward
+
 total_rewards = []
 # Apprentissage
 for episode in range(max_episodes):
