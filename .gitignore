@@ -50,3 +50,4 @@ htmlcov/
 .env.production
 
 # Autres fichiers et dossiers à ignorer selon les besoins
+*.csv
